@@ -5,20 +5,14 @@ chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: "extractWord",
     title: "Extract clicked word",
-    contexts: ["all"]
+    contexts: ["all"],
   });
 });
 
 // Listen for messages from content script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.action === "setClickedWord") {
-    clickedWord = message.word;
-    console.log("Word received in background script:", clickedWord);
+  if (message.paragraph) {
+    console.log("Paragraph received in background script:", message.paragraph);
     sendResponse({ status: "word received" });
   }
-});
-
-// Log the clicked word when the context menu is clicked
-chrome.contextMenus.onClicked.addListener((info, tab) => {
-  console.log("Context menu clicked, word is:", clickedWord);
 });
