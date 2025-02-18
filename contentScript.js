@@ -5,7 +5,7 @@ document.addEventListener("contextmenu", (event) => {
   );
 
   if (targetElement) {
-    let paragraph = targetElement.textContent;
+    let paragraph = targetElement[0];
 
     // Send the paragraph to the background script
     chrome.runtime.sendMessage({ paragraph: paragraph }, (response) => {
