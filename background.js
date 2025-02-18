@@ -11,8 +11,10 @@ chrome.runtime.onInstalled.addListener(() => {
 
 // Listen for messages from content script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  console.log("Paragraph received in background script:", message);
   if (message.paragraph) {
-    console.log("Paragraph received in background script:", message.paragraph);
-    sendResponse({ status: "word received" });
+    console.log("innertext:", message.paragraph);
+  } else {
+    console.log("cant access inner text");
   }
 });
