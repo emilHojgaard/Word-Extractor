@@ -5,6 +5,7 @@ document.addEventListener("contextmenu", (event) => {
   );
 
   if (targetElement) {
+    //[0], because it grabs the top most element(the DOM-tree reversed)
     let paragraph = targetElement[0].textContent;
 
     // Send the paragraph to the background script
