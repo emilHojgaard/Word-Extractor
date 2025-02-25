@@ -13,13 +13,11 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   console.log("Paragraph received in background script:", message);
   if (message.paragraph) {
-    console.log("innertext:", message.paragraph);
-    sendResponse({ status: "Paragraph received" });
-  } else {
-    console.log("cant access inner text");
-    sendResponse({ status: "No paragraph found" });
-    jfjfj
+    console.log("Paragraph received in background script:", message);
+    sendResponse({ status: "word received" });
 
-    
+    // Send the paragraph text back to the same tab to display it
+    chrome.tabs.sendMessage(sender.tab.id, { paragraph: message.paragraph });
+    console.log("Message send back from Service worker:", message.paragraph);
   }
 });
