@@ -18,5 +18,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   } else {
     console.log("cant access inner text");
     sendResponse({ status: "No paragraph found" });
+    jfjfj
+
+    
   }
 });
