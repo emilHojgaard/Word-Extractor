@@ -11,9 +11,8 @@ chrome.runtime.onInstalled.addListener(() => {
 
 // Listen for messages from content script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  console.log("Paragraph received in background script:", message);
   if (message.paragraph) {
-    console.log("Paragraph received in background script:", message);
+    console.log("Paragraph received in background script:", message.paragraph);
     sendResponse({ status: "word received" });
 
     // Send the paragraph text back to the same tab to display it
