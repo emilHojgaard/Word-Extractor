@@ -64,7 +64,7 @@ function showOverlay(text) {
     closeBtn.textContent = "Close";
     closeBtn.style.marginTop = "10px";
     closeBtn.style.padding = "5px 10px";
-    closeBtn.style.background = "red";
+    closeBtn.style.background = "orange";
     closeBtn.style.color = "white";
     closeBtn.style.border = "none";
     closeBtn.style.cursor = "pointer";
