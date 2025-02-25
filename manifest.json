@@ -2,14 +2,6 @@
   "manifest_version": 3,
   "name": "Word Extractor",
   "version": "1.0",
-  "permissions": ["contextMenus", "activeTab"],
-  "background": {
-    "service_worker": "background.js"
-  },
-  "content_scripts": [
-  "manifest_version": 3,
-  "name": "Word Extractor",
-  "version": "1.0",
   "permissions": ["contextMenus", "activeTab", "scripting"],
   "background": {
     "service_worker": "background.js"
