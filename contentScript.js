@@ -21,10 +21,9 @@ document.addEventListener("contextmenu", (event) => {
 
 // Listen for message from background script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message) {
-    let innertext = message.paragraph;
-    showOverlay(innertext);
-    console.log("Recieved from Service worker", innertext);
+  if (message.paragraph) {
+    console.log("Recieved from Service worker", message.paragraph);
+    showOverlay(message.paragraph);
   }
 });
 
