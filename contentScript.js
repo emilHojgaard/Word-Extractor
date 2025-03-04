@@ -13,7 +13,7 @@ document.addEventListener("contextmenu", (event) => {
   } else {
     // If no text is selected, fall back to the original paragraph extraction
     const targetElement = document.elementsFromPoint(event.clientX, event.clientY);
-    
+    console.dir(targetElement);
     if (targetElement.length > 0) {
       let paragraph = targetElement.find(el => el.tagName === "P");
       
@@ -36,7 +36,7 @@ document.addEventListener("contextmenu", (event) => {
 // Listen for message from background script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.paragraph) {
-    console.log("Recieved from Service worker", message.paragraph);
+    console.log("?Recieved from Service worker", message.paragraph);
     showOverlay(message.paragraph);
   }
 });
