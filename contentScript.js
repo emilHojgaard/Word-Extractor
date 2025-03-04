@@ -1,23 +1,37 @@
 document.addEventListener("contextmenu", (event) => {
-  const targetElement = document.elementsFromPoint(
-    event.clientX,
-    event.clientY
-  );
+  let selectedText = window.getSelection().toString().trim();
 
-  if (targetElement) {
-    //[0], because it grabs the top most element(the DOM-tree reversed)
-    let paragraph = targetElement[0].textContent;
-
-    // Send the paragraph to the background script
-    chrome.runtime.sendMessage({ paragraph: paragraph }, (response) => {
+  if (selectedText) {
+    // Send the selected text to the background script
+    chrome.runtime.sendMessage({ paragraph: selectedText }, (response) => {
       if (chrome.runtime.lastError) {
         console.error("Error sending message:", chrome.runtime.lastError);
       } else {
-        console.log("Paragraph sent to background:", paragraph);
+        console.log("Selected text sent to background:", selectedText);
       }
     });
+  } else {
+    // If no text is selected, fall back to the original paragraph extraction
+    const targetElement = document.elementsFromPoint(event.clientX, event.clientY);
+    
+    if (targetElement.length > 0) {
+      let paragraph = targetElement.find(el => el.tagName === "P");
+      
+      if (paragraph) {
+        paragraph = paragraph.textContent.trim();
+        
+        chrome.runtime.sendMessage({ paragraph: paragraph }, (response) => {
+          if (chrome.runtime.lastError) {
+            console.error("Error sending message:", chrome.runtime.lastError);
+          } else {
+            console.log("Paragraph sent to background:", paragraph);
+          }
+        });
+      }
+    }
   }
 });
+
 
 // Listen for message from background script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
