@@ -31,7 +31,7 @@ document.addEventListener("contextmenu", (event) => {
     }
 
 
-    //[0], because it grabs the top most element(the DOM-tree reversed)
+    //getting text from the top element:
     let paragraph = topElement.textContent;
 
     // Finding the clicked word
