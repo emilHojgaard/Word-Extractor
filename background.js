@@ -11,10 +11,14 @@ chrome.runtime.onInstalled.addListener(() => {
 
 // Listen for messages from content script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.paragraph) {
+  if ((message.paragraph, message.word)) {
     console.log("Paragraph received in background script:", message.paragraph);
+    console.log("Word received in background script:", message.word);
+
     // Store the paragraph
     clickedParagraph = message.paragraph;
+    // Store word
+    clickedWord = message.word;
     sendResponse({ status: "word received" });
   }
 });
@@ -24,9 +28,14 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
   console.log("context menu clicked:", info);
   if (info.menuItemId === "extractParagraph") {
     // Send the stored paragraph back to the content script
-    chrome.tabs.sendMessage(tab.id, { paragraph: clickedParagraph });
+    chrome.tabs.sendMessage(tab.id, {
+      paragraph: clickedParagraph,
+      word: clickedWord,
+    });
 
-    console.log("Message send back from Service worker:", clickedParagraph);
+    console.log("Paragraph send back from Service worker:", clickedParagraph);
+    console.log("Word send back from Service worker:", clickedWord);
+
     console.log("Tab ID:", tab?.id);
   }
 });
