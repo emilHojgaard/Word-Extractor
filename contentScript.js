@@ -9,12 +9,13 @@ document.addEventListener("contextmenu", (event) => {
     // Get the top most element(the clicked DOM-element)
     let topElement = targetElement[0];
     let childNodesArray = Array.from(topElement.childNodes);
-    //Help checks:
+    //Debugging checks:
     console.log("Clicked element:", topElement.tagName);
     console.log(childNodesArray);
 
     // Makes sure to avoid extracting text from wrong elements:
     if (topElement.tagName === "MAIN" || topElement.tagName === "BODY" || topElement.tagName === "ARTICLE" || topElement.tagName === "SECTION" || topElement.tagName === "IMG" || topElement.tagName === "A" || topElement.tagName === "BUTTON" || topElement.tagName === "INPUT") {
+      //debuggingcheck
       console.log("Clicked element is not a word")
       return;
     }
@@ -23,9 +24,11 @@ document.addEventListener("contextmenu", (event) => {
     //that are text(to not get a random container-element by cliking a wierd place on the side)
     //also checks for empty text-nodes(which are often containers for buttons and other useless crap)
     let filtered = childNodesArray.filter((node) => node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== "");
+    //debugging check
     console.log("Text nodes:", filtered);
 
     if (filtered.length === 0) {
+      //debugging check 
       console.log("Clicked element is not a word")
       return;
     }

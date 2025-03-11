@@ -36,6 +36,10 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     console.log("Paragraph send back from Service worker:", clickedParagraph);
     console.log("Word send back from Service worker:", clickedWord);
 
+    // Reset the stored paragraph
+    clickedParagraph = "";
+    clickedWord = "";
+
     console.log("Tab ID:", tab?.id);
   }
 });
