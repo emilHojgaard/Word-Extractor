@@ -20,13 +20,16 @@ document.addEventListener("contextmenu", (event) => {
     }
 
     //makeing sure that the clicked element contains child-nodes
-    //that are text(to not get a rendom container-element by cliking a wierd place on the side)
-    let filtered = childNodesArray.filter((node) => node.nodeType === Node.TEXT_NODE);
+    //that are text(to not get a random container-element by cliking a wierd place on the side)
+    //also checks for empty text-nodes(which are often containers for buttons and other useless crap)
+    let filtered = childNodesArray.filter((node) => node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== "");
     console.log("Text nodes:", filtered);
+
     if (filtered.length === 0) {
       console.log("Clicked element is not a word")
       return;
     }
+
 
     //[0], because it grabs the top most element(the DOM-tree reversed)
     let paragraph = topElement.textContent;
