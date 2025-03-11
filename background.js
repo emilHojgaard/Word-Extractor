@@ -1,4 +1,5 @@
-let clickedParagraph = "";
+let clickedParagraph = "You need to click on a word";
+let clickedWord = "word";
 
 // Create the context menu
 chrome.runtime.onInstalled.addListener(() => {
@@ -37,8 +38,8 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     console.log("Word send back from Service worker:", clickedWord);
 
     // Reset the stored paragraph
-    clickedParagraph = "";
-    clickedWord = "";
+    clickedParagraph = "You need to click on a word";
+    clickedWord = "word";
 
     console.log("Tab ID:", tab?.id);
   }
