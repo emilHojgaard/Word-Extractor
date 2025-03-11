@@ -4,9 +4,32 @@ document.addEventListener("contextmenu", (event) => {
     event.clientY
   );
 
+
   if (targetElement) {
+    // Get the top most element(the clicked DOM-element)
+    let topElement = targetElement[0];
+    let childNodesArray = Array.from(topElement.childNodes);
+    //Help checks:
+    console.log("Clicked element:", topElement.tagName);
+    console.log(childNodesArray);
+
+    // Makes sure to avoid extracting text from wrong elements:
+    if (topElement.tagName === "MAIN" || topElement.tagName === "BODY" || topElement.tagName === "ARTICLE" || topElement.tagName === "SECTION" || topElement.tagName === "IMG" || topElement.tagName === "A" || topElement.tagName === "BUTTON" || topElement.tagName === "INPUT") {
+      console.log("Clicked element is not a word")
+      return;
+    }
+
+    //makeing sure that the clicked element contains child-nodes
+    //that are text(to not get a rendom container-element by cliking a wierd place on the side)
+    let filtered = childNodesArray.filter((node) => node.nodeType === Node.TEXT_NODE);
+    console.log("Text nodes:", filtered);
+    if (filtered.length === 0) {
+      console.log("Clicked element is not a word")
+      return;
+    }
+
     //[0], because it grabs the top most element(the DOM-tree reversed)
-    let paragraph = targetElement[0].textContent;
+    let paragraph = topElement.innerText;
 
     // Send the paragraph to the background script
     chrome.runtime.sendMessage({ paragraph: paragraph }, (response) => {
@@ -16,6 +39,7 @@ document.addEventListener("contextmenu", (event) => {
         console.log("Paragraph sent to background:", paragraph);
       }
     });
+
   }
 });
 
@@ -26,6 +50,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     showOverlay(message.paragraph);
   }
 });
+
 
 // Function to create and show the overlay
 function showOverlay(text) {
