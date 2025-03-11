@@ -8,7 +8,7 @@ document.addEventListener("contextmenu", (event) => {
     // Get the top most element (the clicked DOM-element)
     let topElement = targetElement[0]; // ([0] --> the DOM-tree is reversed)
     let childNodesArray = Array.from(topElement.childNodes);
-    //Help checks:
+    //Debugging checks:
     console.log("Clicked element:", topElement.tagName);
     console.log(childNodesArray);
 
@@ -33,12 +33,13 @@ document.addEventListener("contextmenu", (event) => {
       (node) => node.nodeType === Node.TEXT_NODE
     );
     console.log("Text nodes:", filtered);
+
     if (filtered.length === 0) {
       console.log("Clicked element is not a word");
       return;
     }
 
-    // Finding the paragraph
+    //[0], because it grabs the top most element(the DOM-tree reversed)
     let paragraph = topElement.textContent;
 
     // Finding the clicked word
