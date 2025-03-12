@@ -5,7 +5,7 @@ let clickedWord = "word";
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: "extractParagraph",
-    title: "Extract clicked paragraph",
+    title: "🐘 Extract clicked paragraph",
     contexts: ["all"],
   });
 });
