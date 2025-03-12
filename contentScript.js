@@ -9,8 +9,7 @@ document.addEventListener("contextmenu", (event) => {
     let topElement = targetElement[0]; // ([0] --> the DOM-tree is reversed)
     let childNodesArray = Array.from(topElement.childNodes);
     //Debugging checks:
-    console.log("Clicked element:", topElement.tagName);
-    console.log(childNodesArray);
+    console.log("Clicked element is:", topElement.tagName);
 
     // Makes sure to avoid extracting text from wrong elements:
     if (
@@ -23,6 +22,7 @@ document.addEventListener("contextmenu", (event) => {
       topElement.tagName === "BUTTON" ||
       topElement.tagName === "INPUT"
     ) {
+      //debugging log:
       console.log("Clicked element is not a word");
       return;
     }
@@ -32,8 +32,10 @@ document.addEventListener("contextmenu", (event) => {
     let filtered = childNodesArray.filter(
       (node) => node.nodeType === Node.TEXT_NODE
     );
+    //debugging check:
     console.log("Text nodes:", filtered);
 
+    //Debugging check:
     if (filtered.length === 0) {
       console.log("Clicked element is not a word");
       return;
@@ -46,6 +48,7 @@ document.addEventListener("contextmenu", (event) => {
     let extractedWord = getClickedWord(event);
 
     if (extractedWord) {
+      //debugging log:
       console.log("Extracted word:", extractedWord);
       console.log("Extracted paragraph:", paragraph);
 
@@ -55,9 +58,6 @@ document.addEventListener("contextmenu", (event) => {
         (response) => {
           if (chrome.runtime.lastError) {
             console.error("Error sending message:", chrome.runtime.lastError);
-          } else {
-            console.log("Word send to background:", extractedWord);
-            console.log("Paragraph sent to background:", paragraph);
           }
         }
       );
@@ -124,6 +124,7 @@ function getClickedWord(event) {
 // Listen for message from background script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.paragraph && message.word) {
+    //debugging log:
     console.log("Recieved from Service worker", message.paragraph);
     console.log("Recieved from Service worker", message.word);
     showOverlay(message.paragraph, message.word);
@@ -166,7 +167,6 @@ function showOverlay(paragraph, word) {
     // Create paragraph text
     let overlayParagraph = document.createElement("p");
     overlayParagraph.innerHTML = highlightedText;
-    console.log("this is the highlightedText", overlayParagraph.innerText);
 
     // Create close button
     let closeBtn = document.createElement("button");
