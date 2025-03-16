@@ -4,9 +4,10 @@ document.addEventListener("contextmenu", (event) => {
     event.clientX,
     event.clientY
   )?.[0]; // [0] --> first element in the list of elements
+
   if (!topElement || isIgnoredElement(topElement)) return;
 
-  let extractedWord = getClickedWord(event);
+  let extractedWord = getClickedWord(event, topElement);
   if (!extractedWord) return;
 
   let extractedParagraph = topElement.innerText;
@@ -46,7 +47,7 @@ function isIgnoredElement(element) {
 }
 
 // Function to find clicked word
-function getClickedWord(event) {
+function getClickedWord(event, topElement) {
   let selection = window.getSelection();
   selection.removeAllRanges(); // clearing any existing text selection // alias for selection.empty() method....
 
@@ -54,32 +55,20 @@ function getClickedWord(event) {
   let textNode = null;
   let offset = 0;
 
-  // Find the deepest text node at the clicked position
-  const nodes = document.elementsFromPoint(event.clientX, event.clientY); // returns all elements stacked at the clicked coordinates
-  for (const node of nodes) {
-    if (node.nodeType === Node.TEXT_NODE) {
-      textNode = node;
+  // Look for the first text node inside the clicked element
+  for (const child of topElement.childNodes) {
+    if (child.nodeType === Node.TEXT_NODE) {
+      textNode = child;
       break;
     }
-    // Go deeper into child nodes if the exists
-    if (node.childNodes.length > 0) {
-      for (const child of node.childNodes) {
-        if (child.nodeType === Node.TEXT_NODE) {
-          textNode = child;
-          break;
-        }
-      }
-    }
-    if (textNode) break;
   }
 
-  if (!textNode) return null; // Return null if no text node is found
+  if (!textNode) return null; // Return null if no text is found in the element
 
   range.selectNodeContents(textNode);
   const rects = range.getClientRects(); // Get the bounding boxes of the selected text
 
   // Find the closest character offset by comparing clientX and CLientY
-
   let foundOffset = -1;
   for (let i = 0; i < textNode.length; i++) {
     range.setStart(textNode, i);
