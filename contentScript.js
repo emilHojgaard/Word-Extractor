@@ -7,6 +7,8 @@ document.addEventListener("contextmenu", (event) => {
 
   if (!topElement || isIgnoredElement(topElement)) return;
 
+  console.log("Clicked element:", topElement.tagName);
+
   let extractedWord = getClickedWord(event, topElement);
   if (!extractedWord) return;
 
@@ -38,6 +40,9 @@ function isIgnoredElement(element) {
     "BUTTON",
     "INPUT",
   ]);
+
+  childArray = Array.from(element.childNodes);
+  console.log("ChildArray:", childArray);
   return (
     ignoredTags.has(element.tagName) ||
     !Array.from(element.childNodes).some(
@@ -48,28 +53,31 @@ function isIgnoredElement(element) {
 
 // Function to find clicked word
 function getClickedWord(event, topElement) {
-  let selection = window.getSelection();
+  let selection = window.getSelection(); // retrieves the current selection of the page (only done to be able to clear any previous selection (removeAllRangers())).
   selection.removeAllRanges(); // clearing any existing text selection // alias for selection.empty() method....
+  // Clearing the selection ensures that only the word under the click is considered.
 
+  // A range object is created to manipulate text selections programmatically
   let range = document.createRange();
-  let textNode = null;
-  let offset = 0;
+  let textNode = ""; // to store the first text node found inside TopElement
+  let offset = 0; // to track the position of the clicked character
 
   // Look for the first text node inside the clicked element
   for (const child of topElement.childNodes) {
     if (child.nodeType === Node.TEXT_NODE) {
-      textNode = child;
+      textNode += child.innerText;
       break;
     }
   }
 
   if (!textNode) return null; // Return null if no text is found in the element
 
+  // Selecting the entire text node
   range.selectNodeContents(textNode);
-  const rects = range.getClientRects(); // Get the bounding boxes of the selected text
 
-  // Find the closest character offset by comparing clientX and CLientY
+  // Finding the clicked characters position
   let foundOffset = -1;
+  // The loop iterates through every character in the textNode
   for (let i = 0; i < textNode.length; i++) {
     range.setStart(textNode, i);
     range.setEnd(textNode, i + 1);
@@ -93,9 +101,11 @@ function getClickedWord(event, topElement) {
   let after = text.slice(foundOffset).split(/\s+/).shift() || "";
 
   // Clean up punctuation handling (e.g., "word." should return "word")
-  let word = (before + after).replace(/[^\w\s]/g, ""); // Remove punctuation around the word
+  let word = before + after;
   return word;
 }
+
+//.replace(/[^\w\s]/g, ""); // Remove punctuation around the word
 
 // // Determines the character offset within the text node
 // function getCharacterOffset(textNode, clientX) {
