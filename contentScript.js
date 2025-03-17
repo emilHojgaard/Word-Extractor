@@ -36,6 +36,8 @@ document.addEventListener("contextmenu", (event) => {
   //debugging check:
   console.log("Text nodes:", filtered);
 
+  //removing empty text nodes
+  filtered = filtered.filter((node) => node.textContent.trim().length > 0);
   //Debugging check:
   if (filtered.length === 0) {
     console.log("Clicked element is not a word");
@@ -52,7 +54,6 @@ document.addEventListener("contextmenu", (event) => {
   if (extractedWord) {
     //debugging log:
     console.log("Extracted word:", extractedWord);
-    console.log("Extracted paragraph:", paragraph);
 
     // Sending the paragraph and the clicked word to the background script
     chrome.runtime.sendMessage(
