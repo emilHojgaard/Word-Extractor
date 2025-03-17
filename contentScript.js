@@ -103,11 +103,11 @@ function getClickedWord(event, filtered) {
       const rect = range.getBoundingClientRect();
       if (rect.left <= event.clientX && rect.right >= event.clientX && rect.top <= event.clientY && rect.bottom >= event.clientY) {
         offset = i;
+        allText = node;
         break;
       }
     }
     if (offset !== 0) {
-      allText = node;
       return offset;
     }
   });
