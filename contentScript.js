@@ -103,6 +103,7 @@ function getClickedWord(event, filtered) {
       const rect = range.getBoundingClientRect();
       if (rect.left <= event.clientX && rect.right >= event.clientX && rect.top <= event.clientY && rect.bottom >= event.clientY) {
         offset = i;
+        console.log("Offset:", offset);
         allText = node;
         break;
       }
