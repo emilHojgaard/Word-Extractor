@@ -1,125 +1,129 @@
 document.addEventListener("contextmenu", (event) => {
-  const targetElement = document.elementsFromPoint(
+  const topElement = document.elementsFromPoint(
     event.clientX,
     event.clientY
-  );
+  )?.[0];
 
-  if (targetElement) {
-    // Get the top most element (the clicked DOM-element)
-    let topElement = targetElement[0]; // ([0] --> the DOM-tree is reversed)
-    let childNodesArray = Array.from(topElement.childNodes);
-    //Debugging checks:
-    console.log("Clicked element is:", topElement.tagName);
+  //Debugging checks:
+  console.log("Clicked element is:", topElement.tagName);
 
-    // Makes sure to avoid extracting text from wrong elements:
-    if (
-      topElement.tagName === "MAIN" ||
-      topElement.tagName === "BODY" ||
-      topElement.tagName === "ARTICLE" ||
-      topElement.tagName === "SECTION" ||
-      topElement.tagName === "IMG" ||
-      topElement.tagName === "A" ||
-      topElement.tagName === "BUTTON" ||
-      topElement.tagName === "INPUT"
-    ) {
-      //debugging log:
-      console.log("Clicked element is not a word");
-      return;
-    }
-
-    //makeing sure that the clicked element contains child-nodes
-    //that are text(to not get a rendom container-element by cliking a wierd place on the side)
-    let filtered = childNodesArray.filter(
-      (node) => node.nodeType === Node.TEXT_NODE
-    );
-    //debugging check:
-    console.log("Text nodes:", filtered);
-
-    //Debugging check:
-    if (filtered.length === 0) {
-      console.log("Clicked element is not a word");
-      return;
-    }
-
-    //Gets content of the clicked element
-    let paragraph = topElement.innerText;
-
-    // Finding the clicked word
-    let extractedWord = getClickedWord(event);
-
-    if (extractedWord) {
-      //debugging log:
-      console.log("Extracted word:", extractedWord);
-      console.log("Extracted paragraph:", paragraph);
-
-      // Sending the paragraph and the clicked word to the background script
-      chrome.runtime.sendMessage(
-        { paragraph: paragraph, word: extractedWord },
-        (response) => {
-          if (chrome.runtime.lastError) {
-            console.error("Error sending message:", chrome.runtime.lastError);
-          }
-        }
-      );
-    }
+  // Makes sure to avoid extracting text from wrong elements:
+  if (
+    topElement.tagName === "MAIN" ||
+    topElement.tagName === "BODY" ||
+    topElement.tagName === "ARTICLE" ||
+    topElement.tagName === "SECTION" ||
+    topElement.tagName === "IMG" ||
+    topElement.tagName === "A" ||
+    topElement.tagName === "BUTTON" ||
+    topElement.tagName === "INPUT"
+  ) {
+    //debugging log:
+    console.log("Clicked element is not a word");
+    return;
   }
-});
+
+
+  //makeing sure that the clicked element contains child-nodes
+  //that are text(to not get a rendom container-element by cliking a wierd place on the side)
+  let childNodesArray = Array.from(topElement.childNodes);
+  //debugging check:
+  console.log("Unfiltered child nodes:", childNodesArray);
+
+  let filtered = childNodesArray.filter(
+    (node) => node.nodeType === Node.TEXT_NODE
+  );
+  //debugging check:
+  console.log("Text nodes:", filtered);
+
+  //Debugging check:
+  if (filtered.length === 0) {
+    console.log("Clicked element is not a word");
+    return;
+  }
+
+  //Gets content of the clicked element
+  let paragraph = topElement.innerText;
+  console.log("Extracted paragraph:", paragraph);
+
+  // Finding the clicked word
+  let extractedWord = getClickedWord(event, filtered);
+
+  if (extractedWord) {
+    //debugging log:
+    console.log("Extracted word:", extractedWord);
+    console.log("Extracted paragraph:", paragraph);
+
+    // Sending the paragraph and the clicked word to the background script
+    chrome.runtime.sendMessage(
+      { paragraph: paragraph, word: extractedWord },
+      (response) => {
+        if (chrome.runtime.lastError) {
+          console.error("Error sending message:", chrome.runtime.lastError);
+        }
+      }
+    );
+  }
+}
+);
 
 // Function to find the clicked word
-function getClickedWord(event) {
+function getClickedWord(event, filtered) {
   let selection = window.getSelection();
   selection.removeAllRanges(); // clearing any existing text selection // alias for selection.empty() method....
 
-  let range = document.createRange(); // to create a selection around the text
-  let textNode = null; // to store the deepest text node at the clicked position
-  let offset = 0; // Will store the character index within the text node where the click occured
+  // // Find the deepest text node at the clicked position
+  // if (childNodesArray.length > 0) {
+  //   for (const child of childNodesArray) {
+  //     allText = child;
+  //   }
+  // }
 
-  // Find the deepest text node at the clicked position
-  const nodes = document.elementsFromPoint(event.clientX, event.clientY); // returns all elements stacked at the clicked coordinates
-  for (const node of nodes) {
-    if (node.nodeType === Node.TEXT_NODE) {
-      textNode = node;
-      break;
-    } else if (node.childNodes.length > 0) {
-      for (const child of node.childNodes) {
-        if (child.nodeType === Node.TEXT_NODE) {
-          textNode = child;
-          break;
-        }
-      }
-    }
-    if (textNode) break;
-  }
+  // //debugging log:
+  // console.log("All text:", allText);
 
-  if (!textNode) return null; // the user has clicked on a non-text area
-
-  range.selectNodeContents(textNode); // selects the entire context of the identified text node
-  const rects = range.getClientRects(); // gets the bounding boxes of the text in the node ??? not used?!
+  // range.selectNodeContents(allText); // selects the entire context of the identified text node
 
   // Find the closest character offset
   // The loop moves one character at a time through the text node.
   // It checks if the left and right boundary of the character contains the clicked position (clientX).
   // When a match is found, it stores the index (offset) of the clicked character.
-  for (let i = 0; i < textNode.length; i++) {
-    range.setStart(textNode, i);
-    range.setEnd(textNode, i + 1);
-    const rect = range.getBoundingClientRect();
-    if (rect.left <= event.clientX && rect.right >= event.clientX) {
-      offset = i;
-      break;
+
+  let allText = ""; // to store the deepest text node at the clicked position
+  let offset = 0; // Will store the character index within the text node where the click occured
+
+  filtered.forEach(node => {
+    let range = document.createRange(); // to create a selection around the text
+    range.selectNodeContents(node);
+
+    for (let i = 0; i < node.length; i++) {
+      range.setStart(node, i);
+      range.setEnd(node, i + 1);
+      const rect = range.getBoundingClientRect();
+      if (rect.left <= event.clientX && rect.right >= event.clientX && rect.top <= event.clientY && rect.bottom >= event.clientY) {
+        offset = i;
+        break;
+      }
     }
-  }
+    if (offset !== 0) {
+      allText = node;
+      return offset;
+    }
+  });
 
   // Extracting the word containing the clicked character
-  let text = textNode.textContent;
-  let before = text.slice(0, offset).split(/\s+/).pop() || "";
-  let after = text.slice(offset).split(/\s+/).shift() || "";
+  let inner = allText.textContent.trim();
+  let before = inner.slice(0, offset).split(/\s+/).pop() || "";
+  let after = inner.slice(offset).split(/\s+/).shift() || "";
   //  text.slice(0, offset) --> gets all characters before the clicked character
   //  .split(/\s+/).pop()  --> regex that splits the text at whitespace and gets the last word before the clicked position.
   //  text.slice(offset) --> gets all characters after the clicked character
   //  .split(/\s+/).shift() --> splits at whitespace and gets the first word after the clicked position.
   return before + after; // combines to reconstruct the full clicked word.
 }
+
+
+
 
 // Listen for message from background script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
