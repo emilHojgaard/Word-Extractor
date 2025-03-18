@@ -1,4 +1,4 @@
-document.addEventListener("contextmenu", (event) => {
+document.addEventListener("dblclick", (event) => {
   const topElement = document.elementsFromPoint(
     event.clientX,
     event.clientY
