@@ -23,7 +23,6 @@ document.addEventListener("contextmenu", (event) => {
     return;
   }
 
-
   //making sure that the clicked element contains child-nodes
   //that are text(to not get a random container-element by cliking a weird place on the side)
   let childNodesArray = Array.from(topElement.childNodes);
@@ -108,9 +107,6 @@ function getClickedWord(event, filtered) {
   return word;
 
 }
-
-
-
 
 // Listen for message from background script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
