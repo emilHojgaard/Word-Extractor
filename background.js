@@ -5,8 +5,15 @@ let clickedWord = "word";
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: "extractParagraph",
-    title: "🐘 Extract clicked paragraph",
+    title: "🐘 Read paragraph with Zeeguu",
     contexts: ["all"],
+    // Whyyyyyy!?!?!? I can't get the icons to work
+    // icons: {
+    //   "16": "/images/gold-elephant16.png",
+    //   "32": "/images/gold-elephant32.png",
+    //   "48": "/images/gold-elephant48.png",
+    //   "128": "/images/gold-elephant128.png"
+    // }
   });
 });
 
@@ -36,8 +43,5 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     // Reset the stored paragraph
     clickedParagraph = "You need to click on a word";
     clickedWord = "word";
-
-    //Debugging log:
-    console.log("Tab ID:", tab?.id);
   }
 });

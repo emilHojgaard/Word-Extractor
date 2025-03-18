@@ -24,8 +24,8 @@ document.addEventListener("contextmenu", (event) => {
   }
 
 
-  //makeing sure that the clicked element contains child-nodes
-  //that are text(to not get a rendom container-element by cliking a wierd place on the side)
+  //making sure that the clicked element contains child-nodes
+  //that are text(to not get a random container-element by cliking a weird place on the side)
   let childNodesArray = Array.from(topElement.childNodes);
   //debugging check:
   console.log("Unfiltered child nodes:", childNodesArray);
@@ -71,26 +71,9 @@ document.addEventListener("contextmenu", (event) => {
 // Function to find the clicked word
 function getClickedWord(event, filtered) {
   let selection = window.getSelection();
-  selection.removeAllRanges(); // clearing any existing text selection // alias for selection.empty() method....
+  selection.removeAllRanges(); // clearing any existing text selection
 
-  // // Find the deepest text node at the clicked position
-  // if (childNodesArray.length > 0) {
-  //   for (const child of childNodesArray) {
-  //     allText = child;
-  //   }
-  // }
-
-  // //debugging log:
-  // console.log("All text:", allText);
-
-  // range.selectNodeContents(allText); // selects the entire context of the identified text node
-
-  // Find the closest character offset
-  // The loop moves one character at a time through the text node.
-  // It checks if the left and right boundary of the character contains the clicked position (clientX).
-  // When a match is found, it stores the index (offset) of the clicked character.
-
-  let allText = ""; // to store the deepest text node at the clicked position
+  let allText = ""; // Store the text node containing the clicked character
   let offset = 0; // Will store the character index within the text node where the click occured
 
   filtered.forEach(node => {
@@ -117,11 +100,13 @@ function getClickedWord(event, filtered) {
   let inner = allText.textContent.trim();
   let before = inner.slice(0, offset).split(/\s+/).pop() || "";
   let after = inner.slice(offset).split(/\s+/).shift() || "";
-  //  text.slice(0, offset) --> gets all characters before the clicked character
-  //  .split(/\s+/).pop()  --> regex that splits the text at whitespace and gets the last word before the clicked position.
-  //  text.slice(offset) --> gets all characters after the clicked character
-  //  .split(/\s+/).shift() --> splits at whitespace and gets the first word after the clicked position.
-  return before + after; // combines to reconstruct the full clicked word.
+  let word = before + after; // combines to reconstruct the full clicked word.
+
+  // Trim the word for any special characters
+  word = word.replace(/^[^\w]+|[^\w]+$/g, '');
+
+  return word;
+
 }
 
 
