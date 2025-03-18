@@ -16,7 +16,8 @@ document.addEventListener("contextmenu", (event) => {
     topElement.tagName === "IMG" ||
     topElement.tagName === "A" ||
     topElement.tagName === "BUTTON" ||
-    topElement.tagName === "INPUT"
+    topElement.tagName === "INPUT" ||
+    topElement.tagName === "FIGURE"
   ) {
     //debugging log:
     console.log("Clicked element is not a word");
@@ -154,6 +155,7 @@ function showOverlay(paragraph, word) {
     // Create paragraph text
     let overlayParagraph = document.createElement("p");
     overlayParagraph.innerHTML = highlightedText;
+    overlayParagraph.style.color = "black";
 
     // Create close button
     let closeBtn = document.createElement("button");
