@@ -103,7 +103,7 @@ function getClickedWord(event, filtered) {
   let word = before + after; // combines to reconstruct the full clicked word.
 
   // Trim the word for any special characters
-  word = word.replace(/^[^\w]+|[^\w]+$/g, '');
+  word = word.replace(/^[^\wæøåÆØÅ]+|[^\wæøåÆØÅ]+$/g, "");
 
   return word;
 
@@ -147,9 +147,10 @@ function showOverlay(paragraph, word) {
     popup.style.width = "50%";
 
     // Highlight the clicked word in bold
+    const regex = new RegExp(`(^|\\s)(${word})(?=\\s|$|[.,!?])`, "gi");
     let highlightedText = paragraph.replace(
-      new RegExp(`\\b${word}\\b`, "gi"),
-      `<b style="color:orange;">${word}</b>`
+      regex,
+      (match, before, matchedWord) => `${before}<b style="color:orange;">${matchedWord}</b>`
     );
 
     // Create paragraph text
