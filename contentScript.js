@@ -15,18 +15,8 @@ document.addEventListener("mouseup", (event) => {
 });
 
 
-// Listen for message from background script
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.paragraph) {
-    //debugging log:
-    console.log("Recieved from Service worker", message.paragraph);
-    showOverlay(message.paragraph);
-  }
-});
-
-
 // Function to show a small overlay when double-clicking a word:
-function showSmallOverlay(x, y, paragraph) {
+function showSmallOverlay(x, y, selectedText) {
   // Remove any existing small overlay
   const existingSmallOverlay = document.getElementById("smallOverlay");
   if (existingSmallOverlay) existingSmallOverlay.remove();
@@ -50,7 +40,7 @@ function showSmallOverlay(x, y, paragraph) {
 
   // Add click event to trigger the main overlay
   smallOverlay.addEventListener("click", () => {
-    showOverlay(paragraph);
+    showOverlay(selectedText);
     smallOverlay.remove(); // Remove the small overlay after clicking
   });
 
