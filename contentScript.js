@@ -1,14 +1,29 @@
 let selectedText = "";
 document.addEventListener("mouseup", (event) => {
   let selection = window.getSelection();
+  // Get the selected text:
   selectedText = selection.toString();
+  //Get selected anchorNode:
+  let selectedNode = selection.anchorNode;
+  //Get parent element of selected text:
+  let parentElement = selectedNode?.parentElement || null;
+  //Get URL:
+  let url = window.location.href;
   if (selectedText.length > 0) {
     //debugging log:
     console.log("Selected text:", selectedText);
+    console.log("Selected anchorNode:", selectedNode);
+    console.log("Parent element:", parentElement);
+    console.log("URL:", url);
     // small overlay:
     showSmallOverlay(event.clientX, event.clientY, selectedText);
     //sending to background script:
-    chrome.runtime.sendMessage({ selectedText });
+    chrome.runtime.sendMessage({
+      selectedText: selectedText,
+      url: url,
+      anchorNode: selectedNode,
+      parentElement: parentElement
+    });
     //clearing selection
     selection.removeAllRanges();
   }
