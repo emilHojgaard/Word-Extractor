@@ -1,11 +1,14 @@
+let selectedText = "";
 document.addEventListener("mouseup", (event) => {
   let selection = window.getSelection();
-  let selectedText = selection.toString();
+  selectedText = selection.toString();
   if (selectedText.length > 0) {
     //debugging log:
     console.log("Selected text:", selectedText);
-
-    showSmallOverlay(event.clientX, event.clientY, selectedText)
+    // small overlay:
+    showSmallOverlay(event.clientX, event.clientY, selectedText);
+    //sending to background script:
+    chrome.runtime.sendMessage({ selectedText });
     //clearing selection
     selection.removeAllRanges();
   }
