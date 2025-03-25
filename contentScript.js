@@ -25,7 +25,7 @@ function showSmallOverlay(x, y, selectedText) {
   const smallOverlay = document.createElement("img");
   smallOverlay.id = "smallOverlay";
   smallOverlay.style.position = "absolute";
-  smallOverlay.style.top = `${y + window.scrollY + 10}px`;
+  smallOverlay.style.top = `${y + window.scrollY}px`;
   smallOverlay.style.left = `${x + window.scrollX}px`;
   smallOverlay.style.background = "rgba(255, 255, 255, 0.5)";
   smallOverlay.style.padding = "5px 10px";
