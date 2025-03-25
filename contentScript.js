@@ -1,9 +1,11 @@
-document.addEventListener("mouseup", () => {
+document.addEventListener("mouseup", (event) => {
   let selection = window.getSelection();
   let selectedText = selection.toString();
   if (selectedText.length > 0) {
+    //debugging log:
+    console.log("Selected text:", selectedText);
 
-    showOverlay(selection);
+    showSmallOverlay(event.clientX, event.clientY, selectedText)
     //clearing selection
     selection.removeAllRanges();
   }
@@ -18,6 +20,42 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     showOverlay(message.paragraph);
   }
 });
+
+
+// Function to show a small overlay when double-clicking a word:
+function showSmallOverlay(x, y, paragraph) {
+  // Remove any existing small overlay
+  const existingSmallOverlay = document.getElementById("smallOverlay");
+  if (existingSmallOverlay) existingSmallOverlay.remove();
+
+  // Create a small overlay (e.g., a floating button)
+  const smallOverlay = document.createElement("img");
+  smallOverlay.id = "smallOverlay";
+  smallOverlay.style.position = "absolute";
+  smallOverlay.style.top = `${y + window.scrollY + 10}px`;
+  smallOverlay.style.left = `${x + window.scrollX}px`;
+  smallOverlay.style.background = "rgba(255, 255, 255, 0.5)";
+  smallOverlay.style.padding = "5px 10px";
+  smallOverlay.style.borderRadius = "10px";
+  smallOverlay.style.border = "1px solid orange";
+  smallOverlay.style.cursor = "pointer";
+  smallOverlay.style.zIndex = "1000";
+  smallOverlay.src = chrome.runtime.getURL("/images/gold-elephant16.png");
+
+  // Append the small overlay to the body
+  document.body.appendChild(smallOverlay);
+
+  // Add click event to trigger the main overlay
+  smallOverlay.addEventListener("click", () => {
+    showOverlay(paragraph);
+    smallOverlay.remove(); // Remove the small overlay after clicking
+  });
+
+  // Automatically remove the small overlay after a few seconds (optional)
+  setTimeout(() => {
+    if (smallOverlay) smallOverlay.remove();
+  }, 3000);
+}
 
 // Function to create and show the overlay
 function showOverlay(paragraph) {

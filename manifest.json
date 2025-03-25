@@ -19,5 +19,11 @@
       "matches": ["<all_urls>"],
       "js": ["contentScript.js"]
     }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["/images/gold-elephant16.png"],
+      "matches": ["<all_urls>"]
+    }
   ]
 }
