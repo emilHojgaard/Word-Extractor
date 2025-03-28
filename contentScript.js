@@ -36,7 +36,7 @@ function showSmallOverlay(x, y, selectedText) {
   const existingSmallOverlay = document.getElementById("smallOverlay");
   if (existingSmallOverlay) existingSmallOverlay.remove();
 
-  // Create a small overlay (e.g., a floating button)
+  // Create a small overlay
   const smallOverlay = document.createElement("img");
   smallOverlay.id = "smallOverlay";
   smallOverlay.style.position = "absolute";
@@ -56,10 +56,10 @@ function showSmallOverlay(x, y, selectedText) {
   // Add click event to trigger the main overlay
   smallOverlay.addEventListener("click", () => {
     showOverlay(selectedText);
-    smallOverlay.remove(); // Remove the small overlay after clicking
+    smallOverlay.remove();
   });
 
-  // Automatically remove the small overlay after a few seconds (optional)
+  // remove overlay after timeout:
   setTimeout(() => {
     if (smallOverlay) smallOverlay.remove();
   }, 3000);
