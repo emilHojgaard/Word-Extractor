@@ -1,5 +1,11 @@
 let selectedText = "";
+let isOverlayActive = false;
+//debugging log:
+console.log("isoverlayactive" + isOverlayActive);
 document.addEventListener("mouseup", (event) => {
+  // Check if overlay is already active
+  if (isOverlayActive) return;
+
   let selection = window.getSelection();
   // Get the selected text:
   selectedText = selection.toString();
@@ -35,6 +41,10 @@ function showSmallOverlay(x, y, selectedText) {
   // Remove any existing small overlay
   const existingSmallOverlay = document.getElementById("smallOverlay");
   if (existingSmallOverlay) existingSmallOverlay.remove();
+  //escape 'mouseup' event:
+  isOverlayActive = true;
+  //debugging log:
+  console.log("isoverlayactive" + isOverlayActive);
 
   // Create a small overlay
   const smallOverlay = document.createElement("img");
@@ -53,22 +63,32 @@ function showSmallOverlay(x, y, selectedText) {
   // Append the small overlay to the body
   document.body.appendChild(smallOverlay);
 
-  // Add click event to trigger the main overlay
+  // Saved in variable to be able to clear it onClick:
+  let timeoutId = setTimeout(() => {
+    if (smallOverlay) {
+      smallOverlay.remove();
+      isOverlayActive = false;
+      // Debugging log:
+      console.log("isoverlayactive(timeout) " + isOverlayActive);
+    }
+  }, 3000);
+
+  //onClick
   smallOverlay.addEventListener("click", () => {
     showOverlay(selectedText);
     smallOverlay.remove();
+    clearTimeout(timeoutId); // Clear the timeout to prevent it from running
   });
-
-  // remove overlay after timeout:
-  setTimeout(() => {
-    if (smallOverlay) smallOverlay.remove();
-  }, 3000);
 }
 
 // Function to create and show the overlay
 function showOverlay(paragraph) {
   // Check if overlay already exists
   if (!document.getElementById("textOverlay")) {
+    // escape 'mouseup' event:
+    isOverlayActive = true;
+    //debugging log:
+    console.log("isoverlayactive" + isOverlayActive);
     // Create overlay element
     let overlay = document.createElement("div");
     overlay.id = "textOverlay";
@@ -109,6 +129,9 @@ function showOverlay(paragraph) {
     closeBtn.style.borderRadius = "5px";
     closeBtn.addEventListener("click", () => {
       overlay.remove();
+      isOverlayActive = false;
+      //debugging log:
+      console.log("isoverlayactive" + isOverlayActive);
     });
 
     // Append elements
