@@ -9,35 +9,38 @@ document.addEventListener("mouseup", (event) => {
   let selection = window.getSelection();
   // Get the selected text:
   selectedText = selection.toString();
-  //Get selected anchorNode:
-  let selectedNode = selection.anchorNode;
-  //Get parent element of selected text:
-  let parentElement = selectedNode?.parentElement || null;
-  //Get URL:
-  let url = window.location.href;
+
   if (selectedText.length > 0) {
+    //Get selected anchorNode:
+    let selectedNode = selection.anchorNode;
+    //Get parent element of selected text:
+    let parentElement = selectedNode?.parentElement || null;
+    //Get URL:
+    let url = window.location.href;
+
     //debugging log:
     console.log("Selected text:", selectedText);
     console.log("Selected anchorNode:", selectedNode);
     console.log("Parent element:", parentElement);
     console.log("URL:", url);
+
     // small overlay:
-    showSmallOverlay(event.clientX, event.clientY, selectedText);
+    showSmallOverlay(event.clientX, event.clientY, selectedText, selection);
+
     //sending to background script:
     chrome.runtime.sendMessage({
       selectedText: selectedText,
       url: url,
       anchorNode: selectedNode,
-      parentElement: parentElement
+      parentElement: parentElement,
     });
-    //clearing selection
-    selection.removeAllRanges();
+    // //clearing selection // I have outcommented this to avoid conflict when selecting text for other reasons.
+    // selection.removeAllRanges();
   }
 });
 
-
 // Function to show a small overlay when double-clicking a word:
-function showSmallOverlay(x, y, selectedText) {
+function showSmallOverlay(x, y, selectedText, selection) {
   // Remove any existing small overlay
   const existingSmallOverlay = document.getElementById("smallOverlay");
   if (existingSmallOverlay) existingSmallOverlay.remove();
@@ -78,6 +81,10 @@ function showSmallOverlay(x, y, selectedText) {
     showOverlay(selectedText);
     smallOverlay.remove();
     clearTimeout(timeoutId); // Clear the timeout to prevent it from running
+
+    if (selection) {
+      selection.removeAllRanges(); // Clearing the selected text when the elefant icon is clicked.
+    }
   });
 }
 
