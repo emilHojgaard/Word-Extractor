@@ -25,7 +25,7 @@ document.addEventListener("mouseup", (event) => {
     console.log("URL:", url);
 
     // small overlay:
-    showSmallOverlay(event.clientX, event.clientY, selectedText, selection);
+    showSmallOverlay(selectedText, selection); // event.clientX, event.clientY,
 
     //sending to background script:
     chrome.runtime.sendMessage({
@@ -40,7 +40,8 @@ document.addEventListener("mouseup", (event) => {
 });
 
 // Function to show a small overlay when double-clicking a word:
-function showSmallOverlay(x, y, selectedText, selection) {
+function showSmallOverlay(selectedText, selection) {
+  // x, y, (no longer needed as arguments/parameters in the function)
   // Remove any existing small overlay
   const existingSmallOverlay = document.getElementById("smallOverlay");
   if (existingSmallOverlay) existingSmallOverlay.remove();
@@ -49,19 +50,23 @@ function showSmallOverlay(x, y, selectedText, selection) {
   //debugging log:
   console.log("isoverlayactive" + isOverlayActive);
 
+  // Get the bounding box of the selected text (for fixed position of icon at the right-bottom of the selected text)
+  let range = selection.getRangeAt(0);
+  let rect = range.getBoundingClientRect();
+
   // Create a small overlay
   const smallOverlay = document.createElement("img");
   smallOverlay.id = "smallOverlay";
   smallOverlay.style.position = "absolute";
-  smallOverlay.style.top = `${y + window.scrollY}px`;
-  smallOverlay.style.left = `${x + window.scrollX}px`;
+  smallOverlay.style.top = `${rect.bottom + window.scrollY}px`; // y
+  smallOverlay.style.left = `${rect.right + window.scrollX}px`; // x
   smallOverlay.style.background = "rgba(255, 255, 255, 0.5)";
   smallOverlay.style.padding = "5px 10px";
   smallOverlay.style.borderRadius = "10px";
   smallOverlay.style.border = "1px solid orange";
   smallOverlay.style.cursor = "pointer";
   smallOverlay.style.zIndex = "1000";
-  smallOverlay.src = chrome.runtime.getURL("/images/gold-elephant16.png");
+  smallOverlay.src = chrome.runtime.getURL("/images/gold-elephant16.png"); // why is it not possible to change to 32?
 
   // Append the small overlay to the body
   document.body.appendChild(smallOverlay);
