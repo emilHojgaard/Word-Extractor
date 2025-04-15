@@ -109,8 +109,18 @@ function textSelectionUI(text, url, documentTitle) {
     popup.style.padding = "20px";
     popup.style.borderRadius = "8px";
     popup.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.3)";
-    popup.style.textAlign = "center";
-    popup.style.width = "50%";
+    popup.style.display = "flex"; // Use flexbox for layout
+    popup.style.flexDirection = "row"; // Align content and navbar side by side
+    popup.style.gap = "20px"; // Add spacing between content and navbar
+    popup.style.width = "60%"; // Adjust width as needed
+    popup.style.maxWidth = "800px"; // Optional: Limit the maximum width
+    popup.style.textAlign = "left";
+
+    // Create content container
+    let contentContainer = document.createElement("div");
+    contentContainer.style.flex = "1"; // Take up remaining space
+    contentContainer.style.display = "flex";
+    contentContainer.style.flexDirection = "column";
 
     // Create paragraph text
     let overlayParagraph = document.createElement("p");
@@ -132,13 +142,84 @@ function textSelectionUI(text, url, documentTitle) {
       isOverlayActive = false;
     });
 
-    // Append elements
-    popup.appendChild(overlayParagraph);
-    popup.appendChild(closeBtn);
+    // Append content to content container
+    contentContainer.appendChild(overlayParagraph);
+    contentContainer.appendChild(closeBtn);
+
+    // Create right-side navbar
+    let navbar = document.createElement("div");
+    navbar.id = "rightNavbar";
+    navbar.style.display = "flex";
+    navbar.style.flexDirection = "column";
+    navbar.style.alignItems = "flex-start";
+    navbar.style.background = "rgba(255, 255, 255, 0.9)";
+    navbar.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.3)";
+    navbar.style.padding = "20px";
+    navbar.style.borderRadius = "8px";
+    navbar.style.minWidth = "200px";
+
+    // Create Home button
+    let homeButton = document.createElement("button");
+    homeButton.textContent = "Home";
+    homeButton.style.marginBottom = "20px";
+    homeButton.style.padding = "10px 20px";
+    homeButton.style.background = "orange";
+    homeButton.style.color = "white";
+    homeButton.style.border = "none";
+    homeButton.style.cursor = "pointer";
+    homeButton.style.borderRadius = "5px";
+
+    // Create 'See Translation' toggle switch
+    let translationToggle = document.createElement("label");
+    translationToggle.style.marginBottom = "20px";
+    translationToggle.style.display = "flex";
+    translationToggle.style.alignItems = "center";
+    translationToggle.style.cursor = "pointer";
+
+    // Create the checkbox for the toggle
+    let translationCheckbox = document.createElement("input");
+    translationCheckbox.type = "checkbox";
+    translationCheckbox.style.marginRight = "10px";
+
+    // Add a label for the toggle
+    let translationLabel = document.createElement("span");
+    translationLabel.textContent = "See Translation";
+
+    // Append the checkbox and label to the toggle
+    translationToggle.appendChild(translationCheckbox);
+    translationToggle.appendChild(translationLabel);
+
+    // Create 'Hear Pronunciation' toggle switch
+    let pronunciationToggle = document.createElement("label");
+    pronunciationToggle.style.marginBottom = "20px";
+    pronunciationToggle.style.display = "flex";
+    pronunciationToggle.style.alignItems = "center";
+    pronunciationToggle.style.cursor = "pointer";
+
+    // Create the checkbox for the toggle
+    let pronunciationCheckbox = document.createElement("input");
+    pronunciationCheckbox.type = "checkbox";
+    pronunciationCheckbox.style.marginRight = "10px";
+
+    // Add a label for the toggle
+    let pronunciationLabel = document.createElement("span");
+    pronunciationLabel.textContent = "Hear Pronunciation";
+
+    // Append the checkbox and label to the toggle
+    pronunciationToggle.appendChild(pronunciationCheckbox);
+    pronunciationToggle.appendChild(pronunciationLabel);
+
+    // Append the toggles to the navbar
+    navbar.appendChild(homeButton);
+    navbar.appendChild(translationToggle);
+    navbar.appendChild(pronunciationToggle);
+
+    // Append content container and navbar to popup
+    popup.appendChild(contentContainer);
+    popup.appendChild(navbar);
+
+    // Append popup to overlay
     overlay.appendChild(popup);
     document.body.appendChild(overlay);
   }
 }
-
-
-
