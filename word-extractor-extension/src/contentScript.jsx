@@ -38,7 +38,7 @@ document.addEventListener("mouseup", (event) => {
         selectedText={selectedText}
         url={url}
         documentTitle={documentTitle}
-        onClose={() => {
+        onClick={() => {
           root.unmount(); // Unmount the React component
           container.remove(); // Remove the container from the DOM
           isOverlayActive = false; // Reset the overlay state
