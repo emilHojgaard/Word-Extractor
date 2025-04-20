@@ -42,6 +42,7 @@ document.addEventListener("mouseup", (event) => {
           root.unmount(); // Unmount the React component
           container.remove(); // Remove the container from the DOM
           isOverlayActive = false; // Reset the overlay state
+          window.getSelection().removeAllRanges(); // Clear the selection
 
           // Render the TextSelectionUI component
           const uiContainer = document.createElement("div");

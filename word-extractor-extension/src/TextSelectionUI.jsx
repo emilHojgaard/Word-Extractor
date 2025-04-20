@@ -1,6 +1,6 @@
 import React from "react";
 
-const TextSelectionUI = ({ text, url, documentTitle, onClose }) => {
+const TextSelectionUI = ({ text, url, documentTitle, onClick }) => {
   const overlayStyle = {
     position: "fixed",
     top: "0",
@@ -59,7 +59,7 @@ const TextSelectionUI = ({ text, url, documentTitle, onClose }) => {
               cursor: "pointer",
               borderRadius: "5px",
             }}
-            onClick={onClose}
+            onClick={onClick}
           >
             Close
           </button>
