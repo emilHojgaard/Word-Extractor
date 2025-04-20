@@ -1,10 +1,10 @@
 import React from "react";
 
-const SmallOverlay = ({ x, y, selectedText, url, documentTitle, onClick }) => {
+const SmallOverlay = ({ selectionObject, onClick }) => {
   const style = {
     position: "absolute",
-    top: `${y + window.scrollY}px`,
-    left: `${x + window.scrollX}px`,
+    top: `${selectionObject.y + window.scrollY}px`,
+    left: `${selectionObject.x + window.scrollX}px`,
     background: "rgba(255, 255, 255, 0.5)",
     padding: "5px 10px",
     borderRadius: "10px",
