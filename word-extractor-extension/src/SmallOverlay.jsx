@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-const SmallOverlay = ({ x, y, selectedText, url, documentTitle, onClick }) => {
+const SmallOverlay = ({ x, y, onClick, onTimeout }) => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onTimeout();
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [onTimeout]);
+
   const style = {
     position: "absolute",
     top: `${y + window.scrollY}px`,

@@ -10,6 +10,8 @@ let url;
 let documentTitle;
 
 document.addEventListener("mouseup", (event) => {
+  console.log("Mouse event triggered");
+
   if (event.target.id === "smallOverlay" || isOverlayActive) {
     return;
   }
@@ -17,7 +19,6 @@ document.addEventListener("mouseup", (event) => {
   selection = window.getSelection();
   url = window.location.href;
   documentTitle = document.title;
-
   selectedText = selection.toString();
 
   if (selectedText.length > 0 && !isOverlayActive) {
@@ -35,14 +36,12 @@ document.addEventListener("mouseup", (event) => {
       <SmallOverlay
         x={event.clientX}
         y={event.clientY}
-        selectedText={selectedText}
-        url={url}
-        documentTitle={documentTitle}
         onClick={() => {
-          root.unmount(); // Unmount the React component
-          container.remove(); // Remove the container from the DOM
-          isOverlayActive = false; // Reset the overlay state
-          window.getSelection().removeAllRanges(); // Clear the selection
+          console.log("Overlay clicked");
+          root.unmount();
+          container.remove();
+          isOverlayActive = false;
+          window.getSelection().removeAllRanges();
 
           // Render the TextSelectionUI component
           const uiContainer = document.createElement("div");
@@ -55,13 +54,20 @@ document.addEventListener("mouseup", (event) => {
               text={selectedText}
               url={url}
               documentTitle={documentTitle}
-              onClose={() => {
+              onClick={() => {
                 uiRoot.unmount();
                 uiContainer.remove();
                 isOverlayActive = false;
               }}
             />
           );
+        }}
+        onTimeout={() => {
+          console.log("Overlay out of time");
+          root.unmount();
+          container.remove();
+          isOverlayActive = false;
+          window.getSelection().removeAllRanges();
         }}
       />
     );
