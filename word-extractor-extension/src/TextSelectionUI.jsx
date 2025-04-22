@@ -1,7 +1,6 @@
 import React from "react";
 import YellowButton from "./YellowButton/YellowButton.jsx";
 import SideMenu from "./SideMenu/SideMenu.jsx";
-import MUISwitch from "./toggleSwitch";
 
 const TextSelectionUI = ({ selectionObject, onClick }) => {
   const overlayStyle = {
@@ -42,58 +41,26 @@ const TextSelectionUI = ({ selectionObject, onClick }) => {
         <div style={contentStyle}>
           <p style={{ color: "black" }}>{selectionObject.selectedText}</p>
           <YellowButton text="Close" onClick={onClick} />
-          <button
-            style={{
-              marginTop: "10px",
-              padding: "5px 10px",
-              background: "orange",
-              color: "white",
-              border: "none",
-              cursor: "pointer",
-              borderRadius: "5px",
-            }}
-            onClick={onClick}
-          >
-            Close
-          </button>
         </div>
-        <div style={navbarStyle}>
-          <button
-            style={{
-              marginBottom: "20px",
-              padding: "10px 20px",
-              background: "orange",
-              color: "white",
-              border: "none",
-              cursor: "pointer",
-              borderRadius: "5px",
-            }}
-          >
-            Home
-          </button>
-          <label
-            style={{
-              marginBottom: "20px",
-              display: "flex",
-              alignItems: "center",
-              cursor: "pointer",
-            }}
-          >
-            <MUISwitch label="See Translation" />
-          </label>
-          <label
-            style={{
-              marginBottom: "20px",
-              display: "flex",
-              alignItems: "center",
-              cursor: "pointer",
-            }}
-          >
-            <MUISwitch label="Hear Pronunciation" />
-          </label>
-        </div>
-        <SideMenu />
+
+        <label
+          style={{
+            marginBottom: "20px",
+            display: "flex",
+            alignItems: "center",
+            cursor: "pointer",
+          }}
+        ></label>
+        <label
+          style={{
+            marginBottom: "20px",
+            display: "flex",
+            alignItems: "center",
+            cursor: "pointer",
+          }}
+        ></label>
       </div>
+      <SideMenu />
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./SideMenu.module.css";
+import MUISwitch from "../toggleSwitch";
 import YellowButton from "../YellowButton/YellowButton.jsx";
 
 const SideMenu = () => {
@@ -27,10 +28,10 @@ const SideMenu = () => {
           cursor: "pointer",
         }}
       >
-        <input type="checkbox" style={{ marginRight: "10px" }} />
-        See Translation
-      </label>
-      <label
+        </label>
+        <MUISwitch label="See Translation" />
+      
+        <label
         style={{
           marginBottom: "20px",
           display: "flex",
@@ -38,9 +39,10 @@ const SideMenu = () => {
           cursor: "pointer",
         }}
       >
-        <input type="checkbox" style={{ marginRight: "10px" }} />
-        Hear Pronunciation
+        <MUISwitch label="Hear Pronunciation" />
       </label>
+  
+
     </div>
   );
 };
