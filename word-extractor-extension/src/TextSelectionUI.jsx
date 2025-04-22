@@ -1,6 +1,6 @@
 import React from "react";
 
-const TextSelectionUI = ({ text, url, documentTitle, onClick }) => {
+const TextSelectionUI = ({ selectionObject, onClick }) => {
   const overlayStyle = {
     position: "fixed",
     top: "0",
@@ -48,7 +48,7 @@ const TextSelectionUI = ({ text, url, documentTitle, onClick }) => {
     <div id="textOverlay" style={overlayStyle}>
       <div style={popupStyle}>
         <div style={contentStyle}>
-          <p style={{ color: "black" }}>{text}</p>
+          <p style={{ color: "black" }}>{selectionObject.selectedText}</p>
           <button
             style={{
               marginTop: "10px",

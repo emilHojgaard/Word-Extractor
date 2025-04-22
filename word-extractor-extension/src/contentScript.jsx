@@ -1,75 +1,88 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import SmallOverlay from "./SmallOverlay.jsx";
 import TextSelectionUI from "./TextSelectionUI.jsx";
 
-let selectedText = "";
-let isOverlayActive = false;
-let selection;
-let url;
-let documentTitle;
+const selectionObject = {
+  selection: null,
+  selectedText: "",
+  url: "",
+  documentTitle: "",
+  isOverlayActive: false,
+  x: 0,
+  y: 0,
+};
 
-document.addEventListener("mouseup", (event) => {
-  console.log("Mouse event triggered");
+// container for the React component
+const container = document.createElement("div");
+container.id = "react-overlay-container";
+document.body.appendChild(container);
 
-  if (event.target.id === "smallOverlay" || isOverlayActive) {
-    return;
-  }
+const root = createRoot(container);
 
-  selection = window.getSelection();
-  url = window.location.href;
-  documentTitle = document.title;
-  selectedText = selection.toString();
+const App = () => {
+  useEffect(() => {
+    //debugging
+    console.log("useEffect called");
 
-  if (selectedText.length > 0 && !isOverlayActive) {
-    isOverlayActive = true;
+    document.addEventListener("mouseup", (event) => {
+      if (
+        event.target.id === "smallOverlay" ||
+        selectionObject.isOverlayActive
+      ) {
+        return;
+      }
 
-    // Create a container for the React component
-    const container = document.createElement("div");
-    container.id = "react-overlay-container";
-    document.body.appendChild(container);
+      //setting the selection object properties
+      selectionObject.x = event.clientX;
+      selectionObject.y = event.clientY;
+      selectionObject.selection = window.getSelection();
+      selectionObject.selectedText = selectionObject.selection.toString();
+      selectionObject.url = window.location.href;
+      selectionObject.documentTitle = document.title;
 
-    const root = createRoot(container);
+      // showing small overlay, if selected text
+      if (selectionObject.selectedText.length > 0) {
+        selectionObject.isOverlayActive = true;
 
-    // Render the SmallOverlay component
+        root.render(
+          <SmallOverlay
+            selectionObject={selectionObject}
+            onClick={handleClick}
+            onTimeout={() => {
+              //cleaning up the small overlay
+              root.render(<></>);
+              selectionObject.isOverlayActive = false;
+              window.getSelection().removeAllRanges();
+            }}
+          />
+        );
+      }
+    });
+
+    return () => {
+      document.removeEventListener("mouseup", (event) => {});
+    };
+  }, []);
+
+  let handleClick = (event) => {
+    //cleaning up the small overlay
+    event.stopPropagation();
+    root.render(<></>);
+    selectionObject.isOverlayActive = false;
+    window.getSelection().removeAllRanges();
+
     root.render(
-      <SmallOverlay
-        x={event.clientX}
-        y={event.clientY}
+      <TextSelectionUI
+        selectionObject={selectionObject}
         onClick={() => {
-          console.log("Overlay clicked");
-          root.unmount();
-          container.remove();
-          isOverlayActive = false;
-          window.getSelection().removeAllRanges();
-
-          // Render the TextSelectionUI component
-          const uiContainer = document.createElement("div");
-          uiContainer.id = "react-text-ui-container";
-          document.body.appendChild(uiContainer);
-
-          const uiRoot = createRoot(uiContainer);
-          uiRoot.render(
-            <TextSelectionUI
-              text={selectedText}
-              url={url}
-              documentTitle={documentTitle}
-              onClick={() => {
-                uiRoot.unmount();
-                uiContainer.remove();
-                isOverlayActive = false;
-              }}
-            />
-          );
-        }}
-        onTimeout={() => {
-          console.log("Overlay out of time");
-          root.unmount();
-          container.remove();
-          isOverlayActive = false;
-          window.getSelection().removeAllRanges();
+          root.render(<></>);
+          selectionObject.isOverlayActive = false;
         }}
       />
     );
-  }
-});
+  };
+};
+
+// Render the App component (allowing use of React)
+root.render(<App />);

@@ -1,18 +1,20 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { useEffect } from "react";
 
-const SmallOverlay = ({ x, y, onClick, onTimeout }) => {
+const SmallOverlay = ({ selectionObject, onClick, onTimeout }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       onTimeout();
     }, 5000);
 
     return () => clearTimeout(timer);
+    // Jeg er ikke sikker på, at vi bliver nødt til at have onTimeout her ?!!
   }, [onTimeout]);
 
   const style = {
     position: "absolute",
-    top: `${y + window.scrollY}px`,
-    left: `${x + window.scrollX}px`,
+    top: `${selectionObject.y + window.scrollY}px`,
+    left: `${selectionObject.x + window.scrollX}px`,
     background: "rgba(255, 255, 255, 0.5)",
     padding: "5px 10px",
     borderRadius: "10px",
