@@ -47,9 +47,9 @@ const App = () => {
 
         root.render(
           <SmallOverlay
-            selectionObject={selectionObject} // Pass the entire object
+            selectionObject={selectionObject}
             onClick={handleClick}
-            root={root} // Pass the root to SmallOverlay
+            root={root}
           />
         );
       }
