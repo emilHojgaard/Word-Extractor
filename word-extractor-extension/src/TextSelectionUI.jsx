@@ -1,7 +1,6 @@
 import React from "react";
 import SideMenu from "./SideMenu/SideMenu.jsx";
 import TextContainer from "./TextContainer/TextContainer.jsx";
-import MUISwitch from "./toggleSwitch";
 
 const TextSelectionUI = ({ selectionObject, onClick }) => {
   const overlayStyle = {
@@ -19,30 +18,8 @@ const TextSelectionUI = ({ selectionObject, onClick }) => {
 
   return (
     <div id="textOverlay" style={overlayStyle}>
-      <TextContainer text={selectionObject.selectedText} onClick={onClick} />
-      <div style={popupStyle}>
-        <div style={contentStyle}>
-          <p style={{ color: "black" }}>{selectionObject.selectedText}</p>
-          <YellowButton text="Close" onClick={onClick} />
-        </div>
-
-        <label
-          style={{
-            marginBottom: "20px",
-            display: "flex",
-            alignItems: "center",
-            cursor: "pointer",
-          }}
-        ></label>
-        <label
-          style={{
-            marginBottom: "20px",
-            display: "flex",
-            alignItems: "center",
-            cursor: "pointer",
-          }}
-        ></label>
-      </div>
+      <TextContainer text={selectionObject.selectedText} onClick={onClick} />       
+    
       <SideMenu />
     </div>
   );
