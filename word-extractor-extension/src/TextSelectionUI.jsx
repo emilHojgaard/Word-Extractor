@@ -20,6 +20,29 @@ const TextSelectionUI = ({ selectionObject, onClick }) => {
   return (
     <div id="textOverlay" style={overlayStyle}>
       <TextContainer text={selectionObject.selectedText} onClick={onClick} />
+      <div style={popupStyle}>
+        <div style={contentStyle}>
+          <p style={{ color: "black" }}>{selectionObject.selectedText}</p>
+          <YellowButton text="Close" onClick={onClick} />
+        </div>
+
+        <label
+          style={{
+            marginBottom: "20px",
+            display: "flex",
+            alignItems: "center",
+            cursor: "pointer",
+          }}
+        ></label>
+        <label
+          style={{
+            marginBottom: "20px",
+            display: "flex",
+            alignItems: "center",
+            cursor: "pointer",
+          }}
+        ></label>
+      </div>
       <SideMenu />
     </div>
   );
