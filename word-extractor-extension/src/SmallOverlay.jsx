@@ -1,6 +1,18 @@
 import React from "react";
+import { useEffect } from "react";
 
-const SmallOverlay = ({ selectionObject, onClick }) => {
+const SmallOverlay = ({ selectionObject, onClick, root }) => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      //cleaning up the small overlay
+      root.render(<></>);
+      selectionObject.isOverlayActive = false;
+      window.getSelection().removeAllRanges();
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const style = {
     position: "absolute",
     top: `${selectionObject.y + window.scrollY}px`,
