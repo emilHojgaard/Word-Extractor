@@ -1,4 +1,5 @@
 import React from "react";
+import MUISwitch from "./toggleSwitch";
 
 const TextSelectionUI = ({ selectionObject, onClick }) => {
   const overlayStyle = {
@@ -86,8 +87,7 @@ const TextSelectionUI = ({ selectionObject, onClick }) => {
               cursor: "pointer",
             }}
           >
-            <input type="checkbox" style={{ marginRight: "10px" }} />
-            See Translation
+            <MUISwitch label="See Translation" />
           </label>
           <label
             style={{
@@ -97,8 +97,7 @@ const TextSelectionUI = ({ selectionObject, onClick }) => {
               cursor: "pointer",
             }}
           >
-            <input type="checkbox" style={{ marginRight: "10px" }} />
-            Hear Pronunciation
+            <MUISwitch label="Hear Pronunciation" />
           </label>
         </div>
       </div>
