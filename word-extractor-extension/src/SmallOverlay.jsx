@@ -8,7 +8,8 @@ const SmallOverlay = ({ selectionObject, onClick, onTimeout }) => {
     }, 5000);
 
     return () => clearTimeout(timer);
-  }, []);
+    // Jeg er ikke sikker på, at vi bliver nødt til at have onTimeout her ?!!
+  }, [onTimeout]);
 
   const style = {
     position: "absolute",
