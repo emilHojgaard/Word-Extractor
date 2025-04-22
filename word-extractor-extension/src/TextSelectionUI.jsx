@@ -1,6 +1,6 @@
 import React from "react";
-import YellowButton from "./YellowButton/YellowButton.jsx";
 import SideMenu from "./SideMenu/SideMenu.jsx";
+import TextContainer from "./TextContainer/TextContainer.jsx";
 import MUISwitch from "./toggleSwitch";
 
 const TextSelectionUI = ({ selectionObject, onClick }) => {
@@ -8,8 +8,8 @@ const TextSelectionUI = ({ selectionObject, onClick }) => {
     position: "fixed",
     top: "0",
     left: "0",
-    width: "100%",
-    height: "100%",
+    width: "100vw",
+    height: "100vh",
     background: "rgba(0, 0, 0, 0.5)",
     display: "flex",
     justifyContent: "center",
@@ -17,83 +17,10 @@ const TextSelectionUI = ({ selectionObject, onClick }) => {
     zIndex: "1000",
   };
 
-  const popupStyle = {
-    background: "white",
-    padding: "20px",
-    borderRadius: "8px",
-    boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)",
-    display: "flex",
-    flexDirection: "row",
-    gap: "20px",
-    width: "60%",
-    maxWidth: "800px",
-    textAlign: "left",
-  };
-
-  const contentStyle = {
-    flex: "1",
-    display: "flex",
-    flexDirection: "column",
-  };
-
   return (
     <div id="textOverlay" style={overlayStyle}>
-      <div style={popupStyle}>
-        <div style={contentStyle}>
-          <p style={{ color: "black" }}>{selectionObject.selectedText}</p>
-          <YellowButton text="Close" onClick={onClick} />
-          <button
-            style={{
-              marginTop: "10px",
-              padding: "5px 10px",
-              background: "orange",
-              color: "white",
-              border: "none",
-              cursor: "pointer",
-              borderRadius: "5px",
-            }}
-            onClick={onClick}
-          >
-            Close
-          </button>
-        </div>
-        <div style={navbarStyle}>
-          <button
-            style={{
-              marginBottom: "20px",
-              padding: "10px 20px",
-              background: "orange",
-              color: "white",
-              border: "none",
-              cursor: "pointer",
-              borderRadius: "5px",
-            }}
-          >
-            Home
-          </button>
-          <label
-            style={{
-              marginBottom: "20px",
-              display: "flex",
-              alignItems: "center",
-              cursor: "pointer",
-            }}
-          >
-            <MUISwitch label="See Translation" />
-          </label>
-          <label
-            style={{
-              marginBottom: "20px",
-              display: "flex",
-              alignItems: "center",
-              cursor: "pointer",
-            }}
-          >
-            <MUISwitch label="Hear Pronunciation" />
-          </label>
-        </div>
-        <SideMenu />
-      </div>
+      <TextContainer text={selectionObject.selectedText} onClick={onClick} />
+      <SideMenu />
     </div>
   );
 };
