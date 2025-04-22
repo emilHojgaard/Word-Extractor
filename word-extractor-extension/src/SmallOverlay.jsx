@@ -1,13 +1,10 @@
 import React from "react";
 import { useEffect } from "react";
 
-const SmallOverlay = ({ selectionObject, onClick, root }) => {
+const SmallOverlay = ({ selectionObject, onClick, onTimeout }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
-      //cleaning up the small overlay
-      root.render(<></>);
-      selectionObject.isOverlayActive = false;
-      window.getSelection().removeAllRanges();
+      onTimeout();
     }, 5000);
 
     return () => clearTimeout(timer);

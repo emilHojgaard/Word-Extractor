@@ -49,7 +49,12 @@ const App = () => {
           <SmallOverlay
             selectionObject={selectionObject}
             onClick={handleClick}
-            root={root}
+            onTimeout={() => {
+              //cleaning up the small overlay
+              root.render(<></>);
+              selectionObject.isOverlayActive = false;
+              window.getSelection().removeAllRanges();
+            }}
           />
         );
       }
