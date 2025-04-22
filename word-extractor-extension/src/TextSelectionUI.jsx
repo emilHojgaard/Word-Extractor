@@ -1,4 +1,5 @@
 import React from "react";
+import YellowButton from "./YellowButton/YellowButton.jsx";
 
 const TextSelectionUI = ({ selectionObject, onClick }) => {
   const overlayStyle = {
@@ -49,35 +50,10 @@ const TextSelectionUI = ({ selectionObject, onClick }) => {
       <div style={popupStyle}>
         <div style={contentStyle}>
           <p style={{ color: "black" }}>{selectionObject.selectedText}</p>
-          <button
-            style={{
-              marginTop: "10px",
-              padding: "5px 10px",
-              background: "orange",
-              color: "white",
-              border: "none",
-              cursor: "pointer",
-              borderRadius: "5px",
-            }}
-            onClick={onClick}
-          >
-            Close
-          </button>
+          <YellowButton text="Close" onClick={onClick} />
         </div>
         <div style={navbarStyle}>
-          <button
-            style={{
-              marginBottom: "20px",
-              padding: "10px 20px",
-              background: "orange",
-              color: "white",
-              border: "none",
-              cursor: "pointer",
-              borderRadius: "5px",
-            }}
-          >
-            Home
-          </button>
+          <YellowButton text="Home" />
           <label
             style={{
               marginBottom: "20px",
