@@ -66,13 +66,6 @@ const CustomSwitch = styled(Switch)(({ theme }) => ({
   
 }));
 
-const styledLabel = {
-  marginBottom: "20px",
-  display: "flex",
-  alignItems: "center",
-  cursor: "pointer",
-  gap: "20px",
-};  
 
 const CustomFormControlLabel = styled(FormControlLabel)({
   gap: '12px',

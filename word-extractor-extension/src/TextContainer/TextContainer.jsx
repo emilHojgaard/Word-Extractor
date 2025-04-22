@@ -12,7 +12,7 @@ const TextContainer = ({ text, onClick }) => {
         background: "white",
         borderRadius: "8px",
         boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)",
-        width: "60%",
+        //width: "60%",
         maxWidth: "800px",
         overflow: "hidden",
         padding: "20px",

@@ -18,9 +18,11 @@ const TextSelectionUI = ({ selectionObject, onClick }) => {
 
   return (
     <div id="textOverlay" style={overlayStyle}>
-      <TextContainer text={selectionObject.selectedText} onClick={onClick} />       
+      <div>    
     
       <SideMenu />
+      <TextContainer text={selectionObject.selectedText} onClick={onClick} />   
+      </div>
     </div>
   );
 };
