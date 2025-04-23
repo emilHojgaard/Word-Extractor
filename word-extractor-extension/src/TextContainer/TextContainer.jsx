@@ -11,7 +11,7 @@ const TextContainer = ({ text, onClick }) => {
         alignItems: "center",
         background: "white",
         borderBottomLeftRadius: "8px",
-        borderBottomRightRadius: "8px",
+        borderTopLeftRadius: "8px",
         boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)",
         width: "800px",
         maxHeight: "80vh",

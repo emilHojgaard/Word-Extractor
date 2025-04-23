@@ -9,15 +9,15 @@ const SideMenu = () => {
       //inline for now
       style={{
         display: "flex",
-        flexDirection: "row",
+        flexDirection: "column",
         alignItems: "flex-start",
         background: "rgba(255, 255, 255, 0.9)",
-        boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)",
+        boxShadow: "10px 0 10px rgba(0, 0, 0, 0.3)",
         padding: "20px",
         paddingBottom: "0px",
-        borderTopLeftRadius: "8px",
         borderTopRightRadius: "8px",
-        minWidth: "200px",
+        borderBottomRightRadius: "8px",
+        width: "185px",
         justifyContent: "space-between",
       }}
       className={styles.sideMenu}
@@ -27,7 +27,7 @@ const SideMenu = () => {
       </div>
       <div
         style={{
-          flexDirection: "row",
+          flexDirection: "column",
           display: "flex",
         }}
       >
