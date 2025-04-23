@@ -10,10 +10,11 @@ const TextContainer = ({ text, onClick }) => {
         flexDirection: "column",
         alignItems: "center",
         background: "white",
-        borderRadius: "8px",
+        borderBottomLeftRadius: "8px",
+        borderBottomRightRadius: "8px",
         boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)",
-        //width: "60%",
-        maxWidth: "800px",
+        width: "800px",
+        maxHeight: "80vh",
         overflow: "hidden",
         padding: "20px",
         paddingBottom: "5px",
@@ -22,11 +23,13 @@ const TextContainer = ({ text, onClick }) => {
       <div
         style={{
           flex: "1",
-          overflowY: "auto", // Enables vertical scrolling if content overflows
+          overflowY: "auto",
           textAlign: "justify",
           margin: "0 20px",
           lineHeight: "1.6",
           fontSize: "18px",
+          paddingTop: "10px",
+          paddingBottom: "10px",
         }}
       >
         {text}

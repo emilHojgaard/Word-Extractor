@@ -2,7 +2,6 @@ import React from "react";
 import styles from "./SideMenu.module.css";
 import MUISwitch from "../toggleSwitch";
 import YellowButton from "../YellowButton/YellowButton.jsx";
-import { BiLeftArrow } from "react-icons/bi";
 
 const SideMenu = () => {
   return (
@@ -15,7 +14,9 @@ const SideMenu = () => {
         background: "rgba(255, 255, 255, 0.9)",
         boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)",
         padding: "20px",
-        borderRadius: "8px",
+        paddingBottom: "0px",
+        borderTopLeftRadius: "8px",
+        borderTopRightRadius: "8px",
         minWidth: "200px",
         justifyContent: "space-between",
       }}
@@ -25,11 +26,11 @@ const SideMenu = () => {
         <YellowButton text="Home" />
       </div>
       <div
-       style={{
-        flexDirection: "row",
-        display: "flex"
-        }}>
-
+        style={{
+          flexDirection: "row",
+          display: "flex",
+        }}
+      >
         <MUISwitch label="See Translation" />
         <MUISwitch label="Hear Pronunciation" />
       </div>
