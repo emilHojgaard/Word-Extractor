@@ -14,7 +14,7 @@ const CustomSwitch = styled(Switch)(({ theme }) => ({
     "&.Mui-checked": {
       transform: "translateX(23.6px)", // Adjusted to ensure equal spacing
       "& + .MuiSwitch-track": {
-        backgroundColor: "#FFF2E0", // Light orange/peach background
+        backgroundColor: "#fcd295", // Light orange/peach background
         opacity: 1,
       },
       "& .MuiSwitch-thumb": {
@@ -66,7 +66,7 @@ const CustomSwitch = styled(Switch)(({ theme }) => ({
 }));
 
 const CustomFormControlLabel = styled(FormControlLabel)({
-  gap: "12px",
+  gap: "6px",
   marginBottom: "20px",
   display: "flex",
   alignItems: "center",
