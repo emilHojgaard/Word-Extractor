@@ -4,15 +4,15 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { styled } from "@mui/material/styles";
 
 const CustomSwitch = styled(Switch)(({ theme }) => ({
-  width: 60,
-  height: 34,
+  width: 50,
+  height: 27.2,
   padding: 0,
   "& .MuiSwitch-switchBase": {
     padding: 0,
-    margin: 4,
+    margin: 2.2,
     transitionDuration: "300ms",
     "&.Mui-checked": {
-      transform: "translateX(26px)",
+      transform: "translateX(23.6px)", // Adjusted to ensure equal spacing
       "& + .MuiSwitch-track": {
         backgroundColor: "#FFF2E0", // Light orange/peach background
         opacity: 1,
@@ -22,18 +22,18 @@ const CustomSwitch = styled(Switch)(({ theme }) => ({
       },
     },
     "&.Mui-disabled + .MuiSwitch-track": {
-      opacity: 0.5,
+      opacity: 0.50,
     },
   },
   "& .MuiSwitch-thumb": {
     boxSizing: "border-box",
-    width: 26,
-    height: 26,
+    width: 22,
+    height: 22,
     backgroundColor: "#BBBBBB", // Gray for unchecked thumb
   },
   "& .MuiSwitch-track": {
     borderRadius: 34 / 2,
-    backgroundColor: "#E9E9E9", // Light gray background for unchecked
+    backgroundColor: "#827878", // Light gray background for unchecked
     opacity: 1,
     transition: theme.transitions.create(["background-color"], {
       duration: 500,
@@ -48,16 +48,16 @@ const CustomSwitch = styled(Switch)(({ theme }) => ({
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center",
     },
-    // Swap checkmark to the left (before)
+    // Checkmark on the left (before)
     "&:before": {
-      left: 12,
+      left: 5,
       backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="${encodeURIComponent(
-        "#F9A826" // Orange for the checkmark/plus icon
+        "#F9A826" // Orange for the checkmark icon
       )}" d="M9,16.17L4.83,12l-1.42,1.41L9,19 21,7l-1.41-1.41L9,16.17z"/></svg>')`,
     },
-    // Keep minus on the right (after)
+    // Minus on the right (after)
     "&:after": {
-      right: 12,
+      right: 5,
       backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="${encodeURIComponent(
         "#BBBBBB" // Gray for the minus icon
       )}" d="M19,13H5v-2h14v2z"/></svg>')`,
