@@ -37,7 +37,9 @@ const App = () => {
       selectionObject.x = event.clientX;
       selectionObject.y = event.clientY;
       selectionObject.selection = window.getSelection();
-      selectionObject.selectedText = selectionObject.selection.toString();
+      selectionObject.selectedText = selectionObject.selection
+        .toString()
+        .trim();
       selectionObject.url = window.location.href;
       selectionObject.documentTitle = document.title;
 
